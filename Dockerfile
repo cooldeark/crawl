@@ -12,7 +12,7 @@ RUN apt install curl git bzip2 -y
 RUN curl https://pyenv.run | bash
 
 # 安装依赖
-RUN pip install --no-cache-dir -r crawl_project/app/requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # 默认执行爬虫程序
 CMD ["python", "main.py"]
