@@ -11,8 +11,6 @@ RUN apt-get update -y
 RUN apt install curl git bzip2 -y
 RUN curl https://pyenv.run | bash
 
-RUN echo "\$cfg['SendErrorReports'] = 'never';" >> /etc/phpmyadmin/config.inc.php
-
 RUN echo 'export LC_ALL=C.UTF-8' >> ~/.bashrc
 RUN echo 'export LANG=C.UTF-8' >> ~/.bashrc
 RUN echo 'export PYENV_ROOT=\"\$HOME\/\.pyenv\"' >> ~/.bashrc
