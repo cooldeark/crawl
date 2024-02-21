@@ -59,7 +59,7 @@ function install_python_dependencies () {
         echo "警告：無法繼續安裝。請先移除找到的 '.pyenv' 目錄，跑curl https://pyenv.run | bash 去找到目錄"
         exit 1  # 以錯誤代碼退出腳本
     else
-        curl https://pyenv.run | bash -y
+        curl https://pyenv.run | bash
     fi
     sudo echo 'export LC_ALL=C.UTF-8' >> ~/.bashrc
     sudo echo 'export LANG=C.UTF-8' >> ~/.bashrc
