@@ -69,6 +69,8 @@ function install_python_dependencies () {
     sudo echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n eval "$(pyenv init -)"\nfi' >> ~/.bashrc
     exec $SHELL
 
+    echo "set up python params finished"
+
     pyenv install miniconda3-4.3.30 -y
     echo 'Finished install miniconda3'
     pyenv global miniconda3-4.3.30 -y
