@@ -65,19 +65,28 @@ function install_python_dependencies () {
     exec $SHELL
 
     pyenv install miniconda3-4.3.30 -y
+    echo 'Finished install miniconda3'
     pyenv global miniconda3-4.3.30 -y
+    echo 'Finished set global miniconda3'
     pip install pipenv -y
+    echo 'Finished install pipenv'
     pipenv install flask==2.0.1 -y
+    echo 'Finished install flask'
     pipenv --python ~/.pyenv/versions/miniconda3-4.3.30/bin/python -y
+    echo 'Finished binding path'
     pip install docker-compose pipenv
+    echo 'Finished install docker compose pipenv'
     # sync這個會去尋找pipfile.lock把相關library都去載好
     pipenv sync
+    echo 'Finished All'
 }
 
 
 function create_docker_container () {
     sudo docker compose -f mysql.yml up -d
+    echo 'Finished mysql'
     sudo docker compose -f rabbitmq.yml up -d
+    echo 'Finished rabbitMQ'
 }
 
 function restart_all_docker_container () {
