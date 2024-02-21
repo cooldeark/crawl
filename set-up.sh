@@ -55,7 +55,7 @@ function install_docker() {
 
 function install_python_dependencies () {
     sudo apt-get install curl git bzip2 -y
-    sudo curl https://pyenv.run | bash -y
+    curl https://pyenv.run | bash -y
     sudo echo 'export LC_ALL=C.UTF-8' >> ~/.bashrc
     sudo echo 'export LANG=C.UTF-8' >> ~/.bashrc
     sudo echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
