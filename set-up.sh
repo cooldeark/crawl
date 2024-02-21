@@ -54,6 +54,15 @@ function install_docker() {
 }
 
 function install_python_dependencies () {
+    # 獲取當前用戶名
+    CURRENT_USER=$(whoami)
+
+    # 獲取當前用戶的主群組
+    CURRENT_GROUP=$(id -gn $CURRENT_USER)
+
+    # 將 /opt/crawl 資料夾及其內容的所有者更改為當前用戶和群組
+    sudo chown -R $CURRENT_USER:$CURRENT_GROUP /opt/crawl
+
     sudo apt-get install curl git bzip2 -y
     if find /home -type d -name ".pyenv" | grep -q '.'; then
         echo "警告：無法繼續安裝。請先移除找到的 '.pyenv' 目錄，跑curl https://pyenv.run | bash 去找到目錄"
@@ -71,15 +80,15 @@ function install_python_dependencies () {
 
     echo "set up python params finished"
 
-    pyenv install miniconda3-4.3.30 -y
+    pyenv install miniconda3-4.3.30
     echo 'Finished install miniconda3'
-    pyenv global miniconda3-4.3.30 -y
+    pyenv global miniconda3-4.3.30
     echo 'Finished set global miniconda3'
-    pip install pipenv -y
+    pip install pipenv
     echo 'Finished install pipenv'
-    pipenv install flask==2.0.1 -y
+    pipenv install flask==2.0.1
     echo 'Finished install flask'
-    pipenv --python ~/.pyenv/versions/miniconda3-4.3.30/bin/python -y
+    pipenv --python ~/.pyenv/versions/miniconda3-4.3.30/bin/python
     echo 'Finished binding path'
     pip install docker-compose pipenv
     echo 'Finished install docker compose pipenv'
