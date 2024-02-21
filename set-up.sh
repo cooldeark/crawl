@@ -55,7 +55,12 @@ function install_docker() {
 
 function install_python_dependencies () {
     sudo apt-get install curl git bzip2 -y
-    curl https://pyenv.run | bash -y
+    if find /home -type d -name ".pyenv" | grep -q '.'; then
+        echo "警告：無法繼續安裝。請先移除找到的 '.pyenv' 目錄，跑curl https://pyenv.run | bash 去找到目錄"
+        exit 1  # 以錯誤代碼退出腳本
+    else
+        curl https://pyenv.run | bash -y
+    fi
     sudo echo 'export LC_ALL=C.UTF-8' >> ~/.bashrc
     sudo echo 'export LANG=C.UTF-8' >> ~/.bashrc
     sudo echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
