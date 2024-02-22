@@ -7,6 +7,7 @@ COLEARN_WEB_DOMAIN="${COLEARN_WEB_DOMAIN:=unset}"
 INSTALL_ROOT="/opt/crawl"
 
 # Check script is run with sudo
+# 這裡不能用sudo去安裝，因為會出問題
 # if [[ $EUID -ne 0 ]]; then
 # 	echo "This script must be run with sudo or as root"
 # 	exit 1
@@ -53,7 +54,7 @@ function install_docker() {
 
 }
 
-function install_python_dependencies () {
+function install_python_env_params () {
     # 獲取當前用戶名
     CURRENT_USER=$(whoami)
 
@@ -85,10 +86,10 @@ function install_python_dependencies () {
     else
         echo "Already set up!"
     fi
-
-
     echo "set up python params finished"
+}
 
+function install_python_library () {
     pyenv install miniconda3-4.3.30
     echo 'Finished install miniconda3'
     pyenv global miniconda3-4.3.30
@@ -142,11 +143,12 @@ function menu() {
 	echo # 空行 增加可讀信
 	echo -ne "1) Install Docker
 2) Install Python dependencies
-3) Create Docker Container services (mysql, rabbitMQ)
-4) start twse queue
-5) start tpex queue
-6) send task
-7) setting dev env
+3) Install Python Library
+4) Create Docker Container services (mysql, rabbitMQ)
+5) start twse queue
+6) start tpex queue
+7) send task
+8) setting dev env
 i) Auto Run Everything
 w) restart all docker container
 r) reboot
@@ -157,13 +159,14 @@ Choose what to do: "
     # shell 的 case func，就是用) 去當php switch case "1" : 的意思
 	case $choice in
 		1) install_docker ; menu ;;
-		2) install_python_dependencies ; menu ;;
-        3) create_docker_container ; menu ;;
-        4) start_twse_queue ; menu ;;
-        5) start_tpex_queue ; menu ;;
-        6) send_task ; menu ;;
-        7) setting_dev_env ; menu ;;
-		"i") install_docker ; install_python_dependencies ; create_docker_container ; menu ;;
+		2) install_python_env_params ; menu ;;
+        3) install_python_library ; menu ;;
+        4) create_docker_container ; menu ;;
+        5) start_twse_queue ; menu ;;
+        6) start_tpex_queue ; menu ;;
+        7) send_task ; menu ;;
+        8) setting_dev_env ; menu ;;
+		"i") install_docker ; install_python_env_params ; create_docker_container ; menu ;;
 		"w") restart_all_docker_container ; menu ;;
 		"q") exit 0; ;;
 		"r") reboot; ;;
