@@ -3,7 +3,7 @@
 # 这行使得脚本在执行过程中如果遇到任何错误（任何命令返回非零值）就立即退出。这有助于避免错误累积，确保脚本的正确性。
 set -e
 
-COLEARN_WEB_DOMAIN="${COLEARN_WEB_DOMAIN:=unset}"
+# COLEARN_WEB_DOMAIN="${COLEARN_WEB_DOMAIN:=unset}"
 INSTALL_ROOT="/opt/crawl"
 
 # Check script is run with sudo
@@ -149,7 +149,7 @@ function menu() {
 6) start tpex queue
 7) send task
 8) setting dev env
-i) Auto Run Everything
+i) Auto Run Everything (Only 1 ~ 2)
 w) restart all docker container
 r) reboot
 q) quit

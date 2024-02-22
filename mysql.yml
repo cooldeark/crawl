@@ -44,4 +44,5 @@ networks:
 
 volumes:
   mysql:
-    external: true
+    # 不用下面那個，我們自動讓他建制
+    # external: true
