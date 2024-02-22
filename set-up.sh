@@ -72,13 +72,20 @@ function install_python_dependencies () {
         curl https://pyenv.run | bash
     fi
 
-    sudo echo 'export LC_ALL=C.UTF-8' >> ~/.bashrc
-    sudo echo 'export LANG=C.UTF-8' >> ~/.bashrc
-    sudo echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
-    sudo echo 'export PATH="$PYENV_ROOT/shims:$PATH"' >> ~/.bashrc
-    sudo echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
-    sudo echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n eval "$(pyenv init -)"\nfi' >> ~/.bashrc
-    exec $SHELL
+     # 下面沒[]是因為，grep不能當作命令使用，反正[]是命令的意思，grep不能被包起來
+    if ! grep -q 'PYENV_ROOT' ~/.bashrc; then
+        # 如果 /etc/crontab 中不包含 /opt/colearn/dessert，则执行指令
+        sudo echo 'export LC_ALL=C.UTF-8' >> ~/.bashrc
+        sudo echo 'export LANG=C.UTF-8' >> ~/.bashrc
+        sudo echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
+        sudo echo 'export PATH="$PYENV_ROOT/shims:$PATH"' >> ~/.bashrc
+        sudo echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
+        sudo echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n eval "$(pyenv init -)"\nfi' >> ~/.bashrc
+        exec $SHELL
+    else
+        echo "Already set up!"
+    fi
+
 
     echo "set up python params finished"
 
