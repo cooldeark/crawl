@@ -18,6 +18,7 @@ services:
           MYSQL_USER: user
           MYSQL_PASSWORD: test
           MYSQL_ROOT_PASSWORD: test
+          # 從以上能知道 root密碼為test ，然候有一個新建user的登入info是 user/test，但這個只能看到mydb
       volumes:
           - mysql:/var/lib/mysql
           # share volumes of docker container to outside volume, 
@@ -33,6 +34,7 @@ services:
       links: 
           - mysql:db
       ports:
+          # 本機端8000port綁定到容器80port，所以外部連線到ip:8000就會進入到container 80 port的phpmyadmin
           - 8000:80
       depends_on:
         - mysql

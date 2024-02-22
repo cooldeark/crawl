@@ -130,12 +130,16 @@ function start_tpex_queue () {
     pipenv run celery -A financialdata.tasks.worker worker --loglevel=info --concurrency=1  --hostname=%h -Q tpex
 }
 
-function send_task () {
+function send_test_task () {
     pipenv run python financialdata/producer.py taiwan_stock_price 2021-04-01 2021-04-12
 }
 
-function setting_dev_env () {
-    python genenv.py
+function setting_staging_env () {
+    VERSION=STAGING python genenv.py
+}
+
+function setting_prod_env () {
+    VERSION=RELEASE python genenv.py
 }
 
 function menu() {
@@ -145,10 +149,12 @@ function menu() {
 2) Install Python dependencies
 3) Install Python Library
 4) Create Docker Container services (mysql, rabbitMQ)
-5) start twse queue
-6) start tpex queue
-7) send task
-8) setting dev env
+5) setting dev env(Need to modified local.ini then run this job)
+6) start twse queue (Be the worker to work)
+7) start tpex queue (Be the worker to work)
+8) Send Test Task (Will asking worker to work, but if no worker would save this job until woker work)
+9) setting staging env(Need to modified local.ini then run this job)
+10) setting prod env(Need to modified local.ini then run this job)
 i) Auto Run Everything (Only 1 ~ 2)
 w) restart all docker container
 r) reboot
@@ -161,11 +167,13 @@ Choose what to do: "
 		1) install_docker ; menu ;;
 		2) install_python_env_params ; menu ;;
         3) install_python_library ; menu ;;
-        4) create_docker_container ; menu ;;
-        5) start_twse_queue ; menu ;;
-        6) start_tpex_queue ; menu ;;
-        7) send_task ; menu ;;
-        8) setting_dev_env ; menu ;;
+        4) setting_dev_env ; menu ;;
+        5) create_docker_container ; menu ;;
+        6) start_twse_queue ; menu ;;
+        7) start_tpex_queue ; menu ;;
+        8) send_test_task ; menu ;;
+        9) setting_staging_env ; menu ;;
+        10) setting_prod_env ; menu ;;
 		"i") install_docker ; install_python_env_params ; create_docker_container ; menu ;;
 		"w") restart_all_docker_container ; menu ;;
 		"q") exit 0; ;;
