@@ -13,7 +13,8 @@ services:
       RABBITMQ_DEFAULT_VHOST: "/"
     networks:
       - dev
-
+# Flower 是一個基於 Celery 的監控工具，它提供了一個 web 界面來監控和管理 Celery 集群。它能展示任務進度、任務歷史、工作節點的狀態等等。
+# Celery 是worker那邊在用的
   flower:
     image: mher/flower:0.9.5
     container_name: crawl_flower
