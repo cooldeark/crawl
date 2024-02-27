@@ -102,6 +102,8 @@ function install_python_library () {
     echo 'Finished binding path'
     pip install docker-compose pipenv
     echo 'Finished install docker compose pipenv'
+    # pipenv install line-bot-sdk
+    # echo 'Finished install line-bot-sdk'
     # sync這個會去尋找pipfile.lock把相關library都去載好
     pipenv sync
     echo 'Finished All'

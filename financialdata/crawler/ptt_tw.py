@@ -2,6 +2,11 @@ import datetime
 import time
 import typing
 from bs4 import BeautifulSoup
+import json
+
+# line sdk
+# from linebot import LineBotApi
+# from linebot.models import TextSendMessage
 
 # pandas主要用在sql
 import pandas as pd
@@ -66,12 +71,48 @@ def test():
     # 透過 LINE Notify 發送 LINE 訊息
     # """
     # 這裡填入你從 LINE Developers 頁面獲得的 Access Token
-    line_notify_token = 'fZfTo9T8aDE0kUmu8R32VMV4UYHpcO5R6JrpFlNl8Lj9+tDkWlBidmGR6Oh5/dC4Mh8vNjOF7FYf2PmQz+ODx0IiKA1IXZwKi7JpZ6/g2j3YX0t3CKeRxMjFLDLL615Ws2UpYllVggdp0ak/2vMdlwdB04t89/1O/w1cDnyilFU=n'
-    line_notify_api = 'https://notify-api.line.me/api/notify'
+    # 您的 Channel Access Token
+    line_channel_access_token = 'fZfTo9T8aDE0kUmu8R32VMV4UYHpcO5R6JrpFlNl8Lj9+tDkWlBidmGR6Oh5/dC4Mh8vNjOF7FYf2PmQz+ODx0IiKA1IXZwKi7JpZ6/g2j3YX0t3CKeRxMjFLDLL615Ws2UpYllVggdp0ak/2vMdlwdB04t89/1O/w1cDnyilFU='
+
+    # LINE Messaging API 的推送消息 API URL
+    line_push_api = 'https://api.line.me/v2/bot/message/push'
+
+    # 设置请求头
     headers = {
-        'Authorization': f'Bearer {line_notify_token}'
+        'Content-Type': 'application/json',
+        'Authorization': f'Bearer {line_channel_access_token}'
     }
-    data = {'message': 'test'}
-    response = requests.post(line_notify_api, headers=headers, data=data)
-    return response.status_code
+
+    # 构建请求数据
+    data = {
+        "to": "Ua2cde922e74b8c37942f45b54bf5388c",  # 替换为目标用户的 LINE ID，這裡現在是我自己
+        "messages": [
+            {
+                "type": "text",
+                "text": "Hello, world"  # 您想发送的消息内容
+            }
+        ]
+    }
+
+    # 发送 POST 请求
+    response = requests.post(line_push_api, headers=headers, data=json.dumps(data))
+
+    # 打印响应状态和内容，以便调试
+    print(response.status_code, response.text)
+    
+
+    # line sdk
+    # 替换为您的 Channel access token
+    # line_bot_api = LineBotApi('fZfTo9T8aDE0kUmu8R32VMV4UYHpcO5R6JrpFlNl8Lj9+tDkWlBidmGR6Oh5/dC4Mh8vNjOF7FYf2PmQz+ODx0IiKA1IXZwKi7JpZ6/g2j3YX0t3CKeRxMjFLDLL615Ws2UpYllVggdp0ak/2vMdlwdB04t89/1O/w1cDnyilFU=')
+
+    # 替换为接收者的用户ID
+    # user_id = '接收者的用户ID'
+
+    # 发送消息
+    # try:
+    #     line_bot_api.push_message(user_id, TextSendMessage(text='Hello, this is a message from my LINE bot!'))
+    #     print("Message sent!")
+    # except Exception as e:
+    #     print(f"An error occurred: {e}")
+            
 
