@@ -61,5 +61,17 @@ def test():
     for title in titles:
         if 'iphone' in title.text.lower():
             the_titles.append(title.text.strip())
-    return the_titles
+    
+    # """
+    # 透過 LINE Notify 發送 LINE 訊息
+    # """
+    # 這裡填入你從 LINE Developers 頁面獲得的 Access Token
+    line_notify_token = 'fZfTo9T8aDE0kUmu8R32VMV4UYHpcO5R6JrpFlNl8Lj9+tDkWlBidmGR6Oh5/dC4Mh8vNjOF7FYf2PmQz+ODx0IiKA1IXZwKi7JpZ6/g2j3YX0t3CKeRxMjFLDLL615Ws2UpYllVggdp0ak/2vMdlwdB04t89/1O/w1cDnyilFU=n'
+    line_notify_api = 'https://notify-api.line.me/api/notify'
+    headers = {
+        'Authorization': f'Bearer {line_notify_token}'
+    }
+    data = {'message': 'test'}
+    response = requests.post(line_notify_api, headers=headers, data=data)
+    return response.status_code
 

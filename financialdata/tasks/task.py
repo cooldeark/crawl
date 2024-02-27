@@ -39,5 +39,4 @@ def ptt_crawler():
     # )
     # db.upload_data(df, db_dataset.get(dataset), db.router.mysql_financialdata_conn)
     df = getattr(importlib.import_module(f"financialdata.crawler.ptt_tw"), "test")()
-    # print(df)
-    return df
+    
