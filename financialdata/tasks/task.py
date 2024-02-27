@@ -24,7 +24,7 @@ def crawler(dataset: str, parameter: typing.Dict[str, str]):
 
 @app.task()
 # 在使用Celery時，並不是每個函數前都需要添加@app.task()裝飾器。@app.task()裝飾器是用來將一個函數變成Celery的任務（task），這樣它就可以被Celery的工作者（worker）異步執行。你只需要在你希望異步執行的函數前面加上這個裝飾器
-def ptt_crawler(dataset: str, parameter: typing.Dict[str, str]):
+def ptt_crawler():
     # 使用 getattr, importlib,
     # 根據不同 dataset, 使用相對應的 crawler 收集資料
     # 爬蟲

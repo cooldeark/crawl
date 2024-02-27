@@ -5,9 +5,10 @@ from loguru import logger
 
 from financialdata.backend import db
 from financialdata.tasks.task import crawler, ptt_crawler
+# 可以指定型別，也能讓他為null
+from typing import Optional
 
-
-def Update(dataset: str, start_date: str, end_date: str):
+def Update(dataset: Optional[str] = None, start_date: Optional[str] = None, end_date: Optional[str] = None):
     if dataset == "ptt_crawl":
         # 创建一个 Celery 任务。这里，crawler.s 是 Celery 的签名（signature）方法，用于创建任务而不立即执行它
         task = ptt_crawler.s()
