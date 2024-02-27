@@ -9,7 +9,7 @@ from financialdata.schema.dataset import (
     check_schema,
 )
 
-
+# 這裏def (day: int)意思是這裡的day只會是int且只收int，後面的-> bool:意思是，這個func return的值是boolean
 def is_weekend(day: int) -> bool:
     return day in [5, 6]
 
