@@ -12,6 +12,7 @@ def Update(dataset: Optional[str] = None, start_date: Optional[str] = None, end_
     if dataset == "ptt_crawl":
         # 创建一个 Celery 任务。这里，crawler.s 是 Celery 的签名（signature）方法，用于创建任务而不立即执行它
         task = ptt_crawler.s()
+        print(task)
         # queue 參數，可以指定要發送到特定 queue 列隊中，依照不同的queue名字可以有效管理或是分配loading重得去哪個worker做
         task.apply_async(queue="pttCrawler")
     else:
