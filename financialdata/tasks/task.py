@@ -28,13 +28,15 @@ def ptt_crawler(dataset: str, parameter: typing.Dict[str, str]):
     # 使用 getattr, importlib,
     # 根據不同 dataset, 使用相對應的 crawler 收集資料
     # 爬蟲
-    df = getattr(
-        importlib.import_module(f"financialdata.crawler.ptt_tw"),
-        "crawler",
-    )(parameter=parameter)
+    # df = getattr(
+    #     importlib.import_module(f"financialdata.crawler.ptt_tw"),
+    #     "crawler",
+    # )(parameter=parameter)
     # 上傳資料庫
-    db_dataset = dict(
-        taiwan_stock_price="TaiwanStockPrice",
-        taiwan_futures_daily="TaiwanFuturesDaily",
-    )
-    db.upload_data(df, db_dataset.get(dataset), db.router.mysql_financialdata_conn)
+    # db_dataset = dict(
+    #     taiwan_stock_price="TaiwanStockPrice",
+    #     taiwan_futures_daily="TaiwanFuturesDaily",
+    # )
+    # db.upload_data(df, db_dataset.get(dataset), db.router.mysql_financialdata_conn)
+    df = getattr(importlib.import_module(f"financialdata.crawler.ptt_tw"), "test")()
+    print(df)

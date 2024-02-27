@@ -55,8 +55,11 @@ def test():
 
     # 查找所有文章標題
     titles = soup.find_all('div', class_='title')
-
+    # 创建一个空列表用于存储包含"iphone"的标题
+    the_titles = []
     # 迭代每個標題，檢查是否包含"iphone"關鍵字
     for title in titles:
         if 'iphone' in title.text.lower():
-            print(title.text.strip())
+            the_titles.append(title.text.strip())
+    return the_titles
+

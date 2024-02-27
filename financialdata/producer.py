@@ -10,9 +10,9 @@ from financialdata.tasks.task import crawler, ptt_crawler
 def Update(dataset: str, start_date: str, end_date: str):
     if dataset == "ptt_crawl":
         # 创建一个 Celery 任务。这里，crawler.s 是 Celery 的签名（signature）方法，用于创建任务而不立即执行它
-        task = ptt_crawler.s(dataset, parameter)
-        # queue 參數，可以指定要發送到特定 queue 列隊中
-        task.apply_async(queue=parameter.get("data_source", ""))
+        task = ptt_crawler.s()
+        # queue 參數，可以指定要發送到特定 queue 列隊中，依照不同的queue名字可以有效管理或是分配loading重得去哪個worker做
+        task.apply_async(queue="pttCrawler")
     else:
         # 拿取每個爬蟲任務的參數列表，
         # 包含爬蟲資料的日期 date，例如 2021-04-10 的台股股價，
@@ -25,6 +25,10 @@ def Update(dataset: str, start_date: str, end_date: str):
         # 用 for loop 發送任務
         for parameter in parameter_list:
             logger.info(f"{dataset}, {parameter}")
+            # 2024-02-27 07:50:41.612 | INFO     | __main__:Update:27 - taiwan_stock_price, {'date': '2021-04-01', 'data_source': 'tpex'}
+            
+            # print(parameter_list)
+            # [{'date': '2021-04-01', 'data_source': 'twse'}, {'date': '2021-04-01', 'data_source': 'tpex'}]
             
             # 创建一个 Celery 任务。这里，crawler.s 是 Celery 的签名（signature）方法，用于创建任务而不立即执行它
             task = crawler.s(dataset, parameter)
