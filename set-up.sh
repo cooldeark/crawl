@@ -102,8 +102,10 @@ function install_python_library () {
     echo 'Finished binding path'
     pip install docker-compose pipenv
     echo 'Finished install docker compose pipenv'
+
     # pipenv install line-bot-sdk
     # echo 'Finished install line-bot-sdk'
+
     # sync這個會去尋找pipfile.lock把相關library都去載好
     pipenv sync
     echo 'Finished All'
@@ -170,7 +172,7 @@ function menu() {
 9) setting staging env(Need to modified local.ini then run this job)
 10) setting prod env(Need to modified local.ini then run this job)
 11) Send ptt task
-12) Start crawler of ptt
+12) Start queue of ptt
 i) Auto Run Everything (Only 1 ~ 2)
 w) restart all docker container
 r) reboot
