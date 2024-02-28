@@ -75,15 +75,12 @@ function install_python_env_params () {
 
      # 下面沒[]是因為，grep不能當作命令使用，反正[]是命令的意思，grep不能被包起來
     if ! grep -q 'PYENV_ROOT' ~/.bashrc; then
-        # 如果 /etc/crontab 中不包含 /opt/colearn/dessert，则执行指令
         sudo echo 'export LC_ALL=C.UTF-8' >> ~/.bashrc
         sudo echo 'export LANG=C.UTF-8' >> ~/.bashrc
         sudo echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
         sudo echo 'export PATH="$PYENV_ROOT/shims:$PATH"' >> ~/.bashrc
         sudo echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
         sudo echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n eval "$(pyenv init -)"\nfi' >> ~/.bashrc
-        # pyenv install pypy3.8-7.3.10
-        # pyenv global pypy3.8-7.3.10
     else
         echo "Already set up!"
     fi
@@ -99,7 +96,6 @@ function install_python_library () {
     pyenv global miniconda3-4.3.30
     echo 'Finished set global miniconda3'
     pip install pipenv
-    # pipenv --python 3.8
     echo 'Finished install pipenv'
     pipenv install flask==2.0.1
     echo 'Finished install flask'
@@ -110,9 +106,6 @@ function install_python_library () {
     # 8.0.28才能支援python3.6
     pipenv install mysql-connector-python==8.0.28
     echo 'Finished install mysql pipenv'
-
-    # pipenv install line-bot-sdk
-    # echo 'Finished install line-bot-sdk'
 
     # sync這個會去尋找pipfile.lock把相關library都去載好
     pipenv sync
