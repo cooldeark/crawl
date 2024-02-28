@@ -102,6 +102,8 @@ function install_python_library () {
     echo 'Finished binding path'
     pip install docker-compose pipenv
     echo 'Finished install docker compose pipenv'
+    pipenv install mysql-connector-python
+    echo 'Finished install mysql pipenv'
 
     # pipenv install line-bot-sdk
     # echo 'Finished install line-bot-sdk'

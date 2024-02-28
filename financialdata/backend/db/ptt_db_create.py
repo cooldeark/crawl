@@ -1,31 +1,37 @@
-import sqlite3
+import mysql.connector
 
-# 连接到SQLite数据库
-# 如果文件mydatabase.db不存在，会自动在当前目录创建这个文件
-conn = sqlite3.connect('ptt_crawler.db')
+from financialdata.config import (
+    MYSQL_DATA_HOST,
+    MYSQL_DATA_USER,
+    MYSQL_DATA_PASSWORD
+)
 
-# 创建一个Cursor对象，用于执行SQL语句
+# 连接到MySQL服务器
+conn = mysql.connector.connect(
+    host = MYSQL_DATA_HOST,
+    user = MYSQL_DATA_USER,
+    password = MYSQL_DATA_PASSWORD
+)
+
+# 创建一个Cursor对象用于执行SQL语句
 cursor = conn.cursor()
 
-# 执行一条SQL语句，创建一个名为user的表
-cursor.execute('CREATE TABLE IF NOT EXISTS user (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, age INTEGER)')
+# 打开并读取SQL文件
+with open('create_ptt_table.sql', 'r') as file:
+    sql_script = file.read()
 
-# 插入一条记录
-cursor.execute('INSERT INTO user (name, age) VALUES (?, ?)', ('Alice', 21))
+# 由于SQL脚本可能包含多个SQL命令，需要分割它们
+sql_commands = sql_script.split(';')
 
-# 通过rowid来查询刚插入的记录
-cursor.execute('SELECT * FROM user WHERE rowid = ?', (cursor.lastrowid,))
-print(cursor.fetchone())  # 输出插入的数据
-
-# 查询并打印所有记录
-cursor.execute('SELECT * FROM user')
-print(cursor.fetchall())  # 输出所有数据
+# 执行每个SQL命令
+for command in sql_commands:
+    # 您可能需要检查命令是否为空字符串
+    if command.strip() != '':
+        cursor.execute(command)
 
 # 提交事务
 conn.commit()
 
-# 关闭Cursor
+# 关闭Cursor和Connection
 cursor.close()
-
-# 关闭Connection
 conn.close()
