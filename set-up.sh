@@ -87,14 +87,14 @@ function install_python_env_params () {
     else
         echo "Already set up!"
     fi
-    exec $SHELL
     echo "set up python params finished"
+    exec $SHELL
 }
 
 function install_python_library () {
     pyenv install miniconda3-4.3.30
     echo 'Finished install miniconda3'
-    pyenv global miniconda3-4.3.30
+    # pyenv global miniconda3-4.3.30
     echo 'Finished set global miniconda3'
     pip install pipenv
     pipenv --python 3.8
