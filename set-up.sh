@@ -84,10 +84,10 @@ function install_python_env_params () {
         sudo echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n eval "$(pyenv init -)"\nfi' >> ~/.bashrc
         pyenv install pypy3.8-7.3.10
         pyenv global pypy3.8-7.3.10
-        exec $SHELL
     else
         echo "Already set up!"
     fi
+    exec $SHELL
     echo "set up python params finished"
 }
 
@@ -97,6 +97,7 @@ function install_python_library () {
     pyenv global miniconda3-4.3.30
     echo 'Finished set global miniconda3'
     pip install pipenv
+    pipenv --python 3.8
     echo 'Finished install pipenv'
     pipenv install flask==2.0.1
     echo 'Finished install flask'
