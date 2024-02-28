@@ -16,6 +16,10 @@ from financialdata.schema.dataset import (
     check_schema,
 )
 
+from financialdata.config import (
+    LINE_BOT_TOKEN
+)
+
 # 這裡的typing.Dict表示parameter是一個字典。字典的鍵（key）是字符串（str），而值（value）是一個列表（typing.List）。這個列表中的元素可以是字符串（str）、整數（int）或浮點數（float），這由typing.Union[str, int, float]表示。
 # e.g.
 # {
@@ -72,7 +76,7 @@ def test():
     # """
     # 這裡填入你從 LINE Developers 頁面獲得的 Access Token
     # 您的 Channel Access Token
-    line_channel_access_token = 'fZfTo9T8aDE0kUmu8R32VMV4UYHpcO5R6JrpFlNl8Lj9+tDkWlBidmGR6Oh5/dC4Mh8vNjOF7FYf2PmQz+ODx0IiKA1IXZwKi7JpZ6/g2j3YX0t3CKeRxMjFLDLL615Ws2UpYllVggdp0ak/2vMdlwdB04t89/1O/w1cDnyilFU='
+    line_channel_access_token = LINE_BOT_TOKEN
 
     # LINE Messaging API 的推送消息 API URL
     line_push_api = 'https://api.line.me/v2/bot/message/push'
