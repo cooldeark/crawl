@@ -104,7 +104,7 @@ function install_python_library () {
     echo 'Finished install pipenv'
     pipenv install flask==2.0.1
     echo 'Finished install flask'
-    pipenv --python ~/.pyenv/versions/miniconda3-4.3.30/bin/python
+    pipenv --python ~/.pyenv/versions/miniconda3-3.8-23.11.0-2/bin/python
     echo 'Finished binding path'
     pip install docker-compose pipenv
     echo 'Finished install docker compose pipenv'
