@@ -82,6 +82,8 @@ function install_python_env_params () {
         sudo echo 'export PATH="$PYENV_ROOT/shims:$PATH"' >> ~/.bashrc
         sudo echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
         sudo echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n eval "$(pyenv init -)"\nfi' >> ~/.bashrc
+        pyenv install pypy3.8-7.3.10
+        pyenv global pypy3.8-7.3.10
         exec $SHELL
     else
         echo "Already set up!"
@@ -90,9 +92,6 @@ function install_python_env_params () {
 }
 
 function install_python_library () {
-    pyenv install pypy3.8-7.3.10
-    pyenv global pypy3.8-7.3.10
-    exec $SHELL
     pyenv install miniconda3-4.3.30
     echo 'Finished install miniconda3'
     pyenv global miniconda3-4.3.30
