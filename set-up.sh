@@ -93,19 +93,19 @@ function install_python_env_params () {
 
 function install_python_library () {
     # python version 3.6.3
-    pyenv install miniconda3-4.3.30
-    # pyenv install miniconda3-3.8-23.11.0-2
+    # pyenv install miniconda3-4.3.30
+    pyenv install miniconda3-4.7.12
     echo 'Finished install miniconda3'
-    pyenv global miniconda3-4.3.30
-    # pyenv global miniconda3-3.8-23.11.0-2
+    # pyenv global miniconda3-4.3.30
+    pyenv global miniconda3-4.7.12
     echo 'Finished set global miniconda3'
     pip install pipenv
     # pipenv --python 3.8
     echo 'Finished install pipenv'
     pipenv install flask==2.0.1
     echo 'Finished install flask'
-    # pipenv --python ~/.pyenv/versions/miniconda3-3.8-23.11.0-2/bin/python
-    pipenv --python ~/.pyenv/versions/miniconda3-4.3.30/bin/python
+    # pipenv --python ~/.pyenv/versions/miniconda3-4.3.30/bin/python
+    pipenv --python ~/.pyenv/versions/miniconda3-4.7.12/bin/python
     echo 'Finished binding path'
     pip install docker-compose pipenv
     echo 'Finished install docker compose pipenv'
