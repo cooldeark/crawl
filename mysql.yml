@@ -20,6 +20,9 @@ services:
           MYSQL_ROOT_PASSWORD: test
           # 從以上能知道 root密碼為test ，然候有一個新建user的登入info是 user/test，但這個只能看到mydb
       volumes:
+          # 如果要刪除volume
+          # docker volume ls
+          # docker volume rm yourVolumeName
           - mysql:/var/lib/mysql
           # share volumes of docker container to outside volume, 
           # let data persist
