@@ -17,7 +17,7 @@ conn = mysql.connector.connect(
 cursor = conn.cursor()
 
 # 打开并读取SQL文件
-with open('/opt/crawl/backend/db/create_ptt_table.sql', 'r') as file:
+with open('/opt/crawl/financialdata/backend/db/create_ptt_table.sql', 'r') as file:
     sql_script = file.read()
 
 # 由于SQL脚本可能包含多个SQL命令，需要分割它们
