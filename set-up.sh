@@ -92,6 +92,7 @@ function install_python_env_params () {
 function install_python_library () {
     pyenv install pypy3.8-7.3.10
     pyenv global pypy3.8-7.3.10
+    exec $SHELL
     pyenv install miniconda3-4.3.30
     echo 'Finished install miniconda3'
     pyenv global miniconda3-4.3.30
