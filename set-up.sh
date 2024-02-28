@@ -136,6 +136,18 @@ function send_test_task () {
     pipenv run python financialdata/producer.py taiwan_stock_price 2021-04-01 2021-04-12
 }
 
+function send_ptt_task () {
+    pipenv run python financialdata/producer.py ptt_crawl none none
+}
+
+function start_ptt_queue () {
+    pipenv run celery -A financialdata.tasks.worker worker --loglevel=info --concurrency=1  --hostname=%h -Q pttCrawler
+}
+
+function setting_dev_env () {
+    python genenv.py
+}
+
 function setting_staging_env () {
     VERSION=STAGING python genenv.py
 }
@@ -154,9 +166,11 @@ function menu() {
 5) setting dev env(Need to modified local.ini then run this job)
 6) start twse queue (Be the worker to work)
 7) start tpex queue (Be the worker to work)
-8) Send Test Task (Will asking worker to work, but if no worker would save this job until woker work)
+8) Send Stock Task (Will asking worker to work, but if no worker would save this job until woker work)
 9) setting staging env(Need to modified local.ini then run this job)
 10) setting prod env(Need to modified local.ini then run this job)
+11) Send ptt task
+12) Start crawler of ptt
 i) Auto Run Everything (Only 1 ~ 2)
 w) restart all docker container
 r) reboot
@@ -169,13 +183,15 @@ Choose what to do: "
 		1) install_docker ; menu ;;
 		2) install_python_env_params ; menu ;;
         3) install_python_library ; menu ;;
-        4) setting_dev_env ; menu ;;
-        5) create_docker_container ; menu ;;
+        4) create_docker_container ; menu ;;
+        5) setting_dev_env ; menu ;;
         6) start_twse_queue ; menu ;;
         7) start_tpex_queue ; menu ;;
         8) send_test_task ; menu ;;
         9) setting_staging_env ; menu ;;
         10) setting_prod_env ; menu ;;
+        11) send_ptt_task ; menu ;;
+        12) start_ptt_queue ; menu ;;
 		"i") install_docker ; install_python_env_params ; create_docker_container ; menu ;;
 		"w") restart_all_docker_container ; menu ;;
 		"q") exit 0; ;;
