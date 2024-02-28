@@ -107,7 +107,8 @@ function install_python_library () {
     echo 'Finished binding path'
     pip install docker-compose pipenv
     echo 'Finished install docker compose pipenv'
-    pipenv install mysql-connector-python
+    # 8.0.28才能支援python3.6
+    pipenv install mysql-connector-python==8.0.28
     echo 'Finished install mysql pipenv'
 
     # pipenv install line-bot-sdk
