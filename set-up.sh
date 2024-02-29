@@ -159,6 +159,10 @@ function setting_prod_env () {
     VERSION=RELEASE python genenv.py
 }
 
+function create_db_in_mysql () {
+    pipenv run python financialdata/backend/db/db_data_create.py
+}
+
 function menu() {
 	echo # 空行 增加可讀信
 	echo # 空行 增加可讀信
@@ -174,6 +178,7 @@ function menu() {
 10) setting prod env(Need to modified local.ini then run this job)
 11) Send ptt task
 12) Start queue of ptt
+13) Create DB (Don't forget to modified yml file)
 i) Auto Run Everything (Only 1 ~ 2)
 w) restart all docker container
 r) reboot
@@ -195,7 +200,8 @@ Choose what to do: "
         10) setting_prod_env ; menu ;;
         11) send_ptt_task ; menu ;;
         12) start_ptt_queue ; menu ;;
-		"i") install_docker ; install_python_env_params ; create_docker_container ; menu ;;
+        13) create_db_in_mysql ; menu ;;
+		"i") install_docker ; install_python_env_params ; menu ;;
 		"w") restart_all_docker_container ; menu ;;
 		"q") exit 0; ;;
 		"r") reboot; ;;

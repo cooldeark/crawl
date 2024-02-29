@@ -151,3 +151,21 @@ def upload_data(
                 table=table,
                 mysql_conn=mysql_conn,
             )
+
+
+def search_ptt(title_keyword: str, mysql_conn: engine.base.Connection):
+    query = f"SELECT * FROM mobiles WHERE title LIKE '%{title_keyword}%'"
+    try:
+        result_df = pd.read_sql(query, con=mysql_conn)
+        print(result_df)
+        exit()
+        if len(result_df) > 0:
+            logger.info(f"Found results for keyword '{title_keyword}':\n{result_df}")
+            return result_df
+        else:
+            logger.info(f"No results found for keyword '{title_keyword}'.")
+            return pd.DataFrame()
+    except Exception as e:
+        logger.error(f"Error searching for keyword '{title_keyword}': {e}")
+        return pd.DataFrame()
+
