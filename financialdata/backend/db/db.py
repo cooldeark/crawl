@@ -154,7 +154,7 @@ def upload_data(
 
 
 def search_ptt(title_keyword: str, mysql_conn: engine.base.Connection):
-
+    trans = mysql_conn.begin()
     get_title_keyword = json.loads(title_keyword)
     needSendToUser = []
 
@@ -162,29 +162,17 @@ def search_ptt(title_keyword: str, mysql_conn: engine.base.Connection):
         for eachTitle in get_title_keyword:
             query = f"select * from (SELECT * FROM mobiles order by id DESC limit 25) as latestRecords  WHERE title LIKE '%{eachTitle}%';"
             result_df = pd.read_sql(query, con=mysql_conn)
-            # 如果没有找到匹配的结果，添加一条新记录
             if result_df.empty:
-                # 如果找不到，代表是新的人po上來，要跟我們說
                 needSendToUser.append(eachTitle)
-
-                # 创建一个包含新记录数据的 DataFrame
-                # id & createTime系統會自動幫忙建
-                new_record = pd.DataFrame({
-                    'title': [f'{eachTitle}'],
-                })
-            # 将新记录插入数据库
-            new_record.to_sql('mobiles', con=mysql_conn, if_exists='append', index=False)
-        return json.dumps(needSendToUser)
-
-        # 下面是讓你知道，如果失敗也要回傳pd.DataFrame()，因為這樣也能追蹤為啥失敗
-        # if len(result_df) > 0:
-        #     logger.info(f"Found results for keyword '{title_keyword}':\n{result_df}")
-        #     return result_df
-        # else:
-        #     logger.info(f"No results found for keyword '{title_keyword}'.")
-        #     return pd.DataFrame()
-
+                new_record = pd.DataFrame({'title': [f'{eachTitle}']})
+                new_record.to_sql('mobiles', con=mysql_conn, if_exists='append', index=False)
+        trans.commit()
     except Exception as e:
+        trans.rollback()
         logger.error(f"Error searching for keyword '{title_keyword}': {e}")
         return pd.DataFrame()
+    finally:
+        trans.close()
+    
+    return json.dumps(needSendToUser, ensure_ascii=False)
 
