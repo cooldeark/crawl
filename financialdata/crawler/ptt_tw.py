@@ -2,6 +2,7 @@ import datetime
 import time
 import typing
 from bs4 import BeautifulSoup
+import re
 # line sdk
 # from linebot import LineBotApi
 # from linebot.models import TextSendMessage
@@ -60,9 +61,11 @@ def ptt_search():
     titles = soup.find_all('div', class_='title')
     # 创建一个空列表用于存储包含"iphone"的标题
     the_titles = []
-    # 迭代每個標題，檢查是否包含"iphone"關鍵字
+    # 正则表达式，不区分大小写
+    pattern = re.compile(r's23|ultra', re.IGNORECASE)
+    
     for title in titles:
-        if 'iphone' in title.text.lower():
+        if  pattern.search(title.text):
             the_titles.append(title.text.strip())
     # ['[賣/全國/郵寄] iPhone 15 Pro Max 256G 黑鈦', '[賣/全國/皆可] iPhone 14 Pro 256G 金', '[徵/高雄/面交] iPhone 15 128G 藍/黑', '[賣/高雄/面交] iPhone14 ProMax', '[賣/雙北/面交] iPhone 11 128G 黑色']
 

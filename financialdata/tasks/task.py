@@ -79,5 +79,6 @@ def crawler(dataset: str, parameter: typing.Dict[str, str]):
 def ptt_crawler():
     getTitleResult = json.dumps(getattr(importlib.import_module(f"financialdata.crawler.ptt_tw"), "ptt_search")())
     finalSend = db.search_ptt(getTitleResult, db.router.mysql_ptt_conn)
-    sendMessage(finalSend)
+    if len(json.loads(finalSend)) > 0:
+        sendMessage(finalSend)
     
