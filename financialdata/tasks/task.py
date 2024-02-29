@@ -32,7 +32,7 @@ def sendMessage (message: str):
         "messages": [
             {
                 "type": "text",
-                "text": "Search result"  # 您想发送的消息内容
+                "text": message  # 您想发送的消息内容
             }
         ]
     }
@@ -77,7 +77,7 @@ def crawler(dataset: str, parameter: typing.Dict[str, str]):
 @app.task()
 # 在使用Celery時，並不是每個函數前都需要添加@app.task()裝飾器。@app.task()裝飾器是用來將一個函數變成Celery的任務（task），這樣它就可以被Celery的工作者（worker）異步執行。你只需要在你希望異步執行的函數前面加上這個裝飾器
 def ptt_crawler():
-    getTitleResult = getattr(importlib.import_module(f"financialdata.crawler.ptt_tw"), "ptt_search")()
+    getTitleResult = json.dumps(getattr(importlib.import_module(f"financialdata.crawler.ptt_tw"), "ptt_search")())
     finalSend = db.search_ptt(getTitleResult, db.router.mysql_ptt_conn)
     sendMessage(finalSend)
     
