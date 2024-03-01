@@ -49,7 +49,7 @@ def crawler(
 
 def ptt_search():
     # 目標頁面URL
-    url = 'https://www.ptt.cc/bbs/mobilesales/index.html'
+    url = 'https://www.ptt.cc/bbs/HardwareSale/index.html'
 
     # 發送HTTP請求
     response = requests.get(url)
@@ -62,7 +62,7 @@ def ptt_search():
     # 创建一个空列表用于存储包含"iphone"的标题
     the_titles = []
     # 正则表达式，不区分大小写
-    pattern = re.compile(r's23|ultra', re.IGNORECASE)
+    pattern = re.compile(r'2070|2080|3070|3080', re.IGNORECASE)
     
     for title in titles:
         if  pattern.search(title.text):

@@ -163,6 +163,10 @@ function create_db_in_mysql () {
     pipenv run python financialdata/backend/db/db_data_create.py
 }
 
+function set_scheduler_for_ptt_search () {
+    pipenv run python financialdata/scheduler.py
+}
+
 function menu() {
 	echo # 空行 增加可讀信
 	echo # 空行 增加可讀信
@@ -179,6 +183,7 @@ function menu() {
 11) Send ptt task
 12) Start queue of ptt
 13) Create DB (Don't forget to modified yml file)
+14) Set scheduler of ptt crawler (5mins)
 i) Auto Run Everything (Only 1 ~ 2)
 w) restart all docker container
 r) reboot
@@ -201,6 +206,7 @@ Choose what to do: "
         11) send_ptt_task ; menu ;;
         12) start_ptt_queue ; menu ;;
         13) create_db_in_mysql ; menu ;;
+        14) set_scheduler_for_ptt_search ; menu ;;
 		"i") install_docker ; install_python_env_params ; menu ;;
 		"w") restart_all_docker_container ; menu ;;
 		"q") exit 0; ;;
