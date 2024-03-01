@@ -164,7 +164,7 @@ function create_db_in_mysql () {
 }
 
 function set_scheduler_for_ptt_search () {
-    pipenv run python financialdata/scheduler.py
+    pipenv run python financialdata/tasks/scheduler.py
 }
 
 function menu() {
