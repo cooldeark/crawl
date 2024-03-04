@@ -11,7 +11,7 @@ COPY ./ /opt/crawl
 # 系統升級、安裝 python
 RUN apt-get update && apt-get install python3.6 -y && apt-get install python3-pip -y
 # RUN apt install curl git bzip2 -y
-# RUN curl https://pyenv.run | bash
+RUN curl https://pyenv.run | bash
 
 # env
 ENV LC_ALL=C.UTF-8
