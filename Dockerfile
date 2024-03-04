@@ -10,18 +10,27 @@ COPY ./ /opt/crawl
 
 # 系統升級、安裝 python
 RUN apt-get update && apt-get install python3.6 -y && apt-get install python3-pip -y
-# RUN apt install curl git bzip2 -y
+RUN apt install curl git bzip2 -y
 RUN curl https://pyenv.run | bash
 
-# env
-ENV LC_ALL=C.UTF-8
-ENV LANG=C.UTF-8
+# 设置环境变量
+ENV LC_ALL=C.UTF-8 \
+    LANG=C.UTF-8 \
+    PYENV_ROOT=/root/.pyenv
+
+# 将 Pyenv 相关的路径添加到 PATH 环境变量
+ENV PATH=$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
+
+# 安装 Pyenv 并初始化
+RUN apt-get update && apt-get install -y git \
+    && git clone https://github.com/pyenv/pyenv.git $PYENV_ROOT \
+    && echo 'if command -v pyenv 1>/dev/null 2>&1; then eval "$(pyenv init -)"; fi' >> ~/.bashrc
+
 
 # install package
-RUN pip3 install pipenv==2020.6.2
-RUN pipenv sync
+# RUN pip3 install pipenv==2020.6.2
 # genenv
-RUN python3 genenv.py
+
 
 # RUN echo 'export LC_ALL=C.UTF-8' >> ~/.bashrc
 # RUN echo 'export LANG=C.UTF-8' >> ~/.bashrc
@@ -48,6 +57,7 @@ RUN pip install docker-compose pipenv
 RUN pipenv install mysql-connector-python==8.0.28
 RUN pipenv install apscheduler
 RUN pipenv sync
+RUN python genenv.py
 # 下面是讓虛擬環境跑起來
 # RUN pipenv run python
 
