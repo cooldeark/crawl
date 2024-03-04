@@ -9,7 +9,8 @@ WORKDIR /opt/crawl
 COPY ./ /opt/crawl
 
 # 系統升級、安裝 python
-RUN apt-get update && apt-get install python3.6 -y && apt-get install python3-pip -y
+# python3.6 -y && apt-get install python3-pip -y
+RUN apt-get update && apt-get install 
 RUN apt install curl git bzip2 -y
 RUN curl https://pyenv.run | bash
 
