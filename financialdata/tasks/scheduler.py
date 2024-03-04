@@ -26,7 +26,7 @@ def main():
     #     day_of_week="mon-fri",
     # )
 
-    # 设定任务每五分钟执行一次
+    # 设定任务每五分钟执行一次，記得他是你執行後五分鐘後才開始第一次執行，不是你一執行就開跑
     scheduler.add_job(
         id="sent_crawler_task",
         func=sent_crawler_task,

@@ -106,6 +106,8 @@ function install_python_library () {
     # 8.0.28才能支援python3.6
     pipenv install mysql-connector-python==8.0.28
     echo 'Finished install mysql pipenv'
+    pipenv install apscheduler
+    echo 'Finished install apscheduler'
 
     # sync這個會去尋找pipfile.lock把相關library都去載好
     pipenv sync

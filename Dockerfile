@@ -39,11 +39,16 @@ RUN exec $SHELL
 # RUN echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n eval "$(pyenv init -)"\nfi' >> ~/.bashrc
 # RUN exec $SHELL
 
-# RUN pyenv install miniconda3-4.3.30 -y
-# RUN pyenv global miniconda3-4.3.30 -y
-# RUN pip install pipenv -y
-# RUN pipenv install flask==2.0.1 -y
-# RUN pipenv --python ~/.pyenv/versions/miniconda3-4.3.30/bin/python -y
+RUN pyenv install miniconda3-4.3.30
+RUN pyenv global miniconda3-4.3.30
+RUN pip install pipenv
+RUN pipenv install flask==2.0.1
+RUN pipenv --python ~/.pyenv/versions/miniconda3-4.3.30/bin/python
+RUN pip install docker-compose pipenv
+RUN pipenv install mysql-connector-python==8.0.28
+RUN pipenv install apscheduler
+RUN pipenv sync
+RUN python genenv.py
 # 下面是讓虛擬環境跑起來
 # RUN pipenv run python
 
