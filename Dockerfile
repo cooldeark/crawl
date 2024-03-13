@@ -6,17 +6,20 @@ RUN apt-get update && apt-get install python3.6 -y && apt-get install python3-pi
 RUN apt install curl git bzip2 -y
 RUN curl https://pyenv.run | bash
 
-RUN export PYENV_ROOT="$HOME/.pyenv"
-RUN export PATH="$PYENV_ROOT/bin:$PATH"
-RUN eval "$(pyenv init -)"
-RUN eval "$(pyenv virtualenv-init -)"
-RUN export LC_ALL=C.UTF-8
-RUN export LANG=C.UTF-8
+
+ENV PYENV_ROOT="$HOME/.pyenv" \
+    PATH="$PYENV_ROOT/bin:$PATH" \
+    LC_ALL=C.UTF-8 \
+    LANG=C.UTF-8
+
+# RUN eval "$(pyenv init -)"
+# RUN eval "$(pyenv virtualenv-init -)"
 
 RUN mkdir -p /opt/crawl
 # 設定進入docker的預設工作目錄
-WORKDIR /opt/crawl
 COPY ./ /opt/crawl
+WORKDIR /opt/crawl
+
 
 # env
 # ENV LC_ALL=C.UTF-8
