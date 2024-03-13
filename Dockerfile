@@ -8,7 +8,7 @@ RUN curl https://pyenv.run | bash
 
 
 # ENV PYENV_ROOT="$HOME/.pyenv" \
-    PYENV_ROOT=/root/.pyenv \
+ENV PYENV_ROOT=/root/.pyenv \
     # PATH="$PYENV_ROOT/bin:$PATH" \
     PATH=$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
     LC_ALL=C.UTF-8 \
