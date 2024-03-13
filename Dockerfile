@@ -7,8 +7,10 @@ RUN apt install curl git bzip2 -y
 RUN curl https://pyenv.run | bash
 
 
-ENV PYENV_ROOT="$HOME/.pyenv" \
-    PATH="$PYENV_ROOT/bin:$PATH" \
+# ENV PYENV_ROOT="$HOME/.pyenv" \
+    PYENV_ROOT=/root/.pyenv \
+    # PATH="$PYENV_ROOT/bin:$PATH" \
+    PATH=$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
     LC_ALL=C.UTF-8 \
     LANG=C.UTF-8
 
@@ -19,11 +21,6 @@ RUN mkdir -p /opt/crawl
 # 設定進入docker的預設工作目錄
 COPY ./ /opt/crawl
 WORKDIR /opt/crawl
-
-
-# env
-# ENV LC_ALL=C.UTF-8
-# ENV LANG=C.UTF-8
 
 # install package
 RUN pip3 install pipenv==2020.6.2
