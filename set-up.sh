@@ -65,7 +65,7 @@ function install_python_env_params () {
     sudo chown -R $CURRENT_USER:$CURRENT_GROUP /opt/crawl
 
     sudo apt-get install curl git bzip2 -y
-
+    # sudo rm -r  ~/.pyenv 如果安裝pyenv有問題，請記得執行刪除指令再來一次
     if find /home -type d -name ".pyenv" | grep -q '.'; then
         echo "警告：無法繼續安裝。請先移除找到的 '.pyenv' 目錄，跑curl https://pyenv.run | bash 去找到目錄"
         exit 1  # 以錯誤代碼退出腳本
