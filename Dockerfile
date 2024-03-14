@@ -6,13 +6,15 @@ RUN apt-get update && apt-get install python3.6 -y && apt-get install python3-pi
 RUN apt install curl git bzip2 -y
 RUN curl https://pyenv.run | bash
 
-
-# ENV PYENV_ROOT="$HOME/.pyenv" \
-ENV PYENV_ROOT=/root/.pyenv \
-    # PATH="$PYENV_ROOT/bin:$PATH" \
-    PATH=$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH \
-    LC_ALL=C.UTF-8 \
+# 設置環境變量
+ENV PYENV_ROOT="/root/.pyenv"
+ENV PATH="$PYENV_ROOT/bin:$PATH"
+ENV PATH="$PYENV_ROOT/shims:$PATH"
+ENV LC_ALL=C.UTF-8 \
     LANG=C.UTF-8
+RUN echo 'if command -v pyenv 1>/dev/null 2>&1; then eval "$(pyenv init -)"; fi' >> ~/.bashrc
+# PYENV_ROOT="$HOME/.pyenv"
+# PATH="$PYENV_ROOT/bin:$PATH"
 
 # RUN eval "$(pyenv init -)"
 # RUN eval "$(pyenv virtualenv-init -)"
