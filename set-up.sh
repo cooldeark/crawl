@@ -174,28 +174,66 @@ function set_scheduler_for_ptt_search () {
     pipenv run python financialdata/tasks/scheduler.py
 }
 
-# 6) start twse queue (Be the worker to work)
-# 7) start tpex queue (Be the worker to work)
-# 8) Send Stock Task (Will asking worker to work, but if no worker would save this job until woker work)
-# 9) setting staging env(Need to modified local.ini then run this job)
-# 10) setting prod env(Need to modified local.ini then run this job)
+function create_worker_env () {
+    # Prompt the user for environment variable values
+    read -p "Enter MySQL Host (default: 127.0.0.1): " MYSQL_DATA_HOST
+    MYSQL_DATA_HOST=${MYSQL_DATA_HOST:-127.0.0.1}
 
-# 6) start_twse_queue ; menu ;;
-# 7) start_tpex_queue ; menu ;;
-# 8) send_test_task ; menu ;;
-# 9) setting_staging_env ; menu ;;
-# 10) setting_prod_env ; menu ;;
+    read -p "Enter MySQL User (default: root): " MYSQL_DATA_USER
+    MYSQL_DATA_USER=${MYSQL_DATA_USER:-root}
+
+    read -p "Enter MySQL Password (default: test): " MYSQL_DATA_PASSWORD
+    MYSQL_DATA_PASSWORD=${MYSQL_DATA_PASSWORD:-test}
+
+    read -p "Enter MySQL Port (default: 3306): " MYSQL_DATA_PORT
+    MYSQL_DATA_PORT=${MYSQL_DATA_PORT:-3306}
+
+    read -p "Enter MySQL Database Name (default: financialdata): " MYSQL_DATA_DATABASE
+    MYSQL_DATA_DATABASE=${MYSQL_DATA_DATABASE:-financialdata}
+
+    read -p "Enter Worker Account (default: worker): " WORKER_ACCOUNT
+    WORKER_ACCOUNT=${WORKER_ACCOUNT:-worker}
+
+    read -p "Enter Worker Password (default: worker): " WORKER_PASSWORD
+    WORKER_PASSWORD=${WORKER_PASSWORD:-worker}
+
+    read -p "Enter Message Queue Host (default: 127.0.0.1): " MESSAGE_QUEUE_HOST
+    MESSAGE_QUEUE_HOST=${MESSAGE_QUEUE_HOST:-127.0.0.1}
+
+    read -p "Enter Message Queue Port (default: 5672): " MESSAGE_QUEUE_PORT
+    MESSAGE_QUEUE_PORT=${MESSAGE_QUEUE_PORT:-5672}
+
+    read -p "Enter Line Bot Token (default: secret): " LINE_BOT_TOKEN
+    LINE_BOT_TOKEN=${LINE_BOT_TOKEN:-secret}
+
+    # Write the environment variables to the .env file
+    cat << EOF > .env
+    MYSQL_DATA_HOST=$MYSQL_DATA_HOST
+    MYSQL_DATA_USER=$MYSQL_DATA_USER
+    MYSQL_DATA_PASSWORD=$MYSQL_DATA_PASSWORD
+    MYSQL_DATA_PORT=$MYSQL_DATA_PORT
+    MYSQL_DATA_DATABASE=$MYSQL_DATA_DATABASE
+    WORKER_ACCOUNT=$WORKER_ACCOUNT
+    WORKER_PASSWORD=$WORKER_PASSWORD
+    MESSAGE_QUEUE_HOST=$MESSAGE_QUEUE_HOST
+    MESSAGE_QUEUE_PORT=$MESSAGE_QUEUE_PORT
+    LINE_BOT_TOKEN=$LINE_BOT_TOKEN
+    EOF
+
+    echo ".env file created with provided values."
+}
 
 function menu() {
 	echo # 空行 增加可讀信
 	echo # 空行 增加可讀信
 	echo -ne "1) Install Docker (Each instance needed)
-2) Install Python dependencies (Only services need)
-3) Install Python Library (Only services need)
+2) Install Python dependencies (Only services host needed)
+3) Install Python Library (Only services host needed)
 4) Create Docker Container services (mysql, rabbitMQ)
-5) setting dev env(Need to modified local.ini then run this job)
+5) setting dev env (Need to modified local.ini then run this job, only services host needed)
 6) Create DB (Don't forget to modified yml file)
-7) Create ptt worker container
+7) Create .env for worker container
+8) Create ptt worker container
 11) Send ptt task
 12) Start queue of ptt
 14) Set scheduler of ptt crawler (5mins)
@@ -215,6 +253,7 @@ Choose what to do: "
         5) setting_dev_env ; menu ;;
         6) create_db_in_mysql ; menu ;;
         7) create_ptt_worker_container ; menu ;;
+        8) create_ptt_worker_container ; menu ;;
         11) send_ptt_task ; menu ;;
         12) start_ptt_queue ; menu ;;
         14) set_scheduler_for_ptt_search ; menu ;;
@@ -245,3 +284,17 @@ fi
 while [ 1 ]; do
 	menu
 done
+
+
+
+# 6) start twse queue (Be the worker to work)
+# 7) start tpex queue (Be the worker to work)
+# 8) Send Stock Task (Will asking worker to work, but if no worker would save this job until woker work)
+# 9) setting staging env(Need to modified local.ini then run this job)
+# 10) setting prod env(Need to modified local.ini then run this job)
+
+# 6) start_twse_queue ; menu ;;
+# 7) start_tpex_queue ; menu ;;
+# 8) send_test_task ; menu ;;
+# 9) setting_staging_env ; menu ;;
+# 10) setting_prod_env ; menu ;;
