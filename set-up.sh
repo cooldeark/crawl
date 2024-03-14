@@ -122,6 +122,11 @@ function create_docker_container () {
     echo 'Finished rabbitMQ'
 }
 
+function create_ptt_worker_container () {
+    sudo docker compose up -d
+    echo 'Finished'
+}
+
 function restart_all_docker_container () {
     sudo docker restart crawl_mysql
     sudo docker restart crawl_phpmyadmin
@@ -169,22 +174,30 @@ function set_scheduler_for_ptt_search () {
     pipenv run python financialdata/tasks/scheduler.py
 }
 
+# 6) start twse queue (Be the worker to work)
+# 7) start tpex queue (Be the worker to work)
+# 8) Send Stock Task (Will asking worker to work, but if no worker would save this job until woker work)
+# 9) setting staging env(Need to modified local.ini then run this job)
+# 10) setting prod env(Need to modified local.ini then run this job)
+
+# 6) start_twse_queue ; menu ;;
+# 7) start_tpex_queue ; menu ;;
+# 8) send_test_task ; menu ;;
+# 9) setting_staging_env ; menu ;;
+# 10) setting_prod_env ; menu ;;
+
 function menu() {
 	echo # 空行 增加可讀信
 	echo # 空行 增加可讀信
-	echo -ne "1) Install Docker
-2) Install Python dependencies
-3) Install Python Library
+	echo -ne "1) Install Docker (Each instance needed)
+2) Install Python dependencies (Only services need)
+3) Install Python Library (Only services need)
 4) Create Docker Container services (mysql, rabbitMQ)
 5) setting dev env(Need to modified local.ini then run this job)
-6) start twse queue (Be the worker to work)
-7) start tpex queue (Be the worker to work)
-8) Send Stock Task (Will asking worker to work, but if no worker would save this job until woker work)
-9) setting staging env(Need to modified local.ini then run this job)
-10) setting prod env(Need to modified local.ini then run this job)
+6) Create DB (Don't forget to modified yml file)
+7) Create ptt worker container
 11) Send ptt task
 12) Start queue of ptt
-13) Create DB (Don't forget to modified yml file)
 14) Set scheduler of ptt crawler (5mins)
 i) Auto Run Everything (Only 1 ~ 2)
 w) restart all docker container
@@ -200,14 +213,10 @@ Choose what to do: "
         3) install_python_library ; menu ;;
         4) create_docker_container ; menu ;;
         5) setting_dev_env ; menu ;;
-        6) start_twse_queue ; menu ;;
-        7) start_tpex_queue ; menu ;;
-        8) send_test_task ; menu ;;
-        9) setting_staging_env ; menu ;;
-        10) setting_prod_env ; menu ;;
+        6) create_db_in_mysql ; menu ;;
+        7) create_ptt_worker_container ; menu ;;
         11) send_ptt_task ; menu ;;
         12) start_ptt_queue ; menu ;;
-        13) create_db_in_mysql ; menu ;;
         14) set_scheduler_for_ptt_search ; menu ;;
 		"i") install_docker ; install_python_env_params ; menu ;;
 		"w") restart_all_docker_container ; menu ;;

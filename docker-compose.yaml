@@ -1,14 +1,14 @@
-# 此份怪怪的搞不定
 version: '3.0'
 services:
-    crawler_twse:
+    crawler_ptt:
         build:  # 定義如何構建 Docker 映像。
             context: ./  # 指定 Dockerfile 所在的上下文路徑，這裡是當前目錄。
             dockerfile: Dockerfile  # 指定用於構建映像的 Dockerfile 名稱。
-        volumes:
-            - '.:/opt/crawl'
-        hostname: "twse"
-        command: pipenv run celery -A financialdata.tasks.worker worker --loglevel=info --concurrency=1  --hostname=%h -Q twse
+        image: crawl-worker
+        # volumes:
+        #     - '.:/opt/crawl'
+        hostname: "ptt-worker"
+        command: pipenv run celery -A financialdata.tasks.worker worker --loglevel=info --concurrency=1  --hostname=%h -Q pttCrawler
         restart: always
         environment:
           - TZ=Asia/Taipei

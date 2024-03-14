@@ -13,11 +13,6 @@ ENV PATH="$PYENV_ROOT/shims:$PATH"
 ENV LC_ALL=C.UTF-8 \
     LANG=C.UTF-8
 RUN echo 'if command -v pyenv 1>/dev/null 2>&1; then eval "$(pyenv init -)"; fi' >> ~/.bashrc
-# PYENV_ROOT="$HOME/.pyenv"
-# PATH="$PYENV_ROOT/bin:$PATH"
-
-# RUN eval "$(pyenv init -)"
-# RUN eval "$(pyenv virtualenv-init -)"
 
 RUN mkdir -p /opt/crawl
 # 設定進入docker的預設工作目錄
