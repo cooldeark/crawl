@@ -175,7 +175,11 @@ function set_scheduler_for_ptt_search () {
 }
 
 function create_worker_env () {
-    # Prompt the user for environment variable values
+    envFile=".env"
+    if [ -f "$envFile" ]; then
+        echo "$envFile exists. Please remove or ignore this step."
+    else
+        # Prompt the user for environment variable values
     read -p "Enter MySQL Host (default: 127.0.0.1): " MYSQL_DATA_HOST
     MYSQL_DATA_HOST=${MYSQL_DATA_HOST:-127.0.0.1}
 
@@ -207,20 +211,33 @@ function create_worker_env () {
     LINE_BOT_TOKEN=${LINE_BOT_TOKEN:-secret}
 
     # Write the environment variables to the .env file
-    cat << EOF > .env
-    MYSQL_DATA_HOST=$MYSQL_DATA_HOST
-    MYSQL_DATA_USER=$MYSQL_DATA_USER
-    MYSQL_DATA_PASSWORD=$MYSQL_DATA_PASSWORD
-    MYSQL_DATA_PORT=$MYSQL_DATA_PORT
-    MYSQL_DATA_DATABASE=$MYSQL_DATA_DATABASE
-    WORKER_ACCOUNT=$WORKER_ACCOUNT
-    WORKER_PASSWORD=$WORKER_PASSWORD
-    MESSAGE_QUEUE_HOST=$MESSAGE_QUEUE_HOST
-    MESSAGE_QUEUE_PORT=$MESSAGE_QUEUE_PORT
-    LINE_BOT_TOKEN=$LINE_BOT_TOKEN
-    EOF
+    # 這裡牌版往內是因為不想有其他格式存在
+echo 'MYSQL_DATA_HOST='$MYSQL_DATA_HOST'
+MYSQL_DATA_USER='$MYSQL_DATA_USER'
+MYSQL_DATA_PASSWORD='$MYSQL_DATA_PASSWORD'
+MYSQL_DATA_PORT='$MYSQL_DATA_PORT'
+MYSQL_DATA_DATABASE='$MYSQL_DATA_DATABASE'
+WORKER_ACCOUNT='$WORKER_ACCOUNT'
+WORKER_PASSWORD='$WORKER_PASSWORD'
+MESSAGE_QUEUE_HOST='$MESSAGE_QUEUE_HOST'
+MESSAGE_QUEUE_PORT='$MESSAGE_QUEUE_PORT'
+LINE_BOT_TOKEN='$LINE_BOT_TOKEN'' >.env
 
-    echo ".env file created with provided values."
+echo 'Finished generated env.'
+
+# 這裡格式要這樣寫，不然會有問題，所以這縮排長這樣正常，上面的可以用，下面的也可以，但是不能有其他的code，所以選則用上面的echo
+#     cat << EOF> .env
+# MYSQL_DATA_HOST=$MYSQL_DATA_HOST
+# MYSQL_DATA_USER=$MYSQL_DATA_USER
+# MYSQL_DATA_PASSWORD=$MYSQL_DATA_PASSWORD
+# MYSQL_DATA_PORT=$MYSQL_DATA_PORT
+# MYSQL_DATA_DATABASE=$MYSQL_DATA_DATABASE
+# WORKER_ACCOUNT=$WORKER_ACCOUNT
+# WORKER_PASSWORD=$WORKER_PASSWORD
+# MESSAGE_QUEUE_HOST=$MESSAGE_QUEUE_HOST
+# MESSAGE_QUEUE_PORT=$MESSAGE_QUEUE_PORT
+# LINE_BOT_TOKEN=$LINE_BOT_TOKEN
+    fi
 }
 
 function menu() {
@@ -231,9 +248,9 @@ function menu() {
 3) Install Python Library (Only services host needed)
 4) Create Docker Container services (mysql, rabbitMQ)
 5) setting dev env (Need to modified local.ini then run this job, only services host needed)
-6) Create DB (Don't forget to modified yml file)
+6) Create DB (Don't forget to modified mysql.yml file)
 7) Create .env for worker container
-8) Create ptt worker container
+8) Create ptt worker container (Please finished step7 then run this)
 11) Send ptt task
 12) Start queue of ptt
 14) Set scheduler of ptt crawler (5mins)

@@ -7,8 +7,9 @@ services:
         image: crawl-worker
         # volumes:
         #     - '.:/opt/crawl'
-        hostname: "ptt-worker"
-        command: pipenv run celery -A financialdata.tasks.worker worker --loglevel=info --concurrency=1  --hostname=%h -Q pttCrawler
+        # 先把hostname註解掉，因為我們才可以用一台instance建立多個worker，因為hostname是唯一性
+        # hostname: "ptt-worker"
+        command: sh -c "export MY_HOSTNAME=ptt-worker-`hostname` && pipenv run celery -A financialdata.tasks.worker worker --loglevel=info --concurrency=1  --hostname=%h -Q pttCrawler
         restart: always
         environment:
           - TZ=Asia/Taipei
