@@ -31,7 +31,7 @@ def main():
         id="sent_crawler_task",
         func=sent_crawler_task,
         trigger="interval",
-        minutes=5  # 每五分钟执行一次
+        minutes=1  # 每五分钟执行一次
     )
 
     logger.info("sent_crawler_task")

@@ -122,9 +122,19 @@ function create_docker_container () {
     echo 'Finished rabbitMQ'
 }
 
+function create_scheduler_container () {
+    sudo docker compose -f scheduler.yml up -d
+    echo 'Finished scheduler'
+}
+
 function create_ptt_worker_container () {
-    sudo docker compose up -d
-    echo 'Finished'
+    # 提示用户输入要创建的容器数量
+    echo "Enter the number of containers (workers) you want to create:"
+    read num
+
+    # 使用用户输入的数字启动指定数量的容器
+    sudo docker compose up --scale crawler_ptt=$num -d
+    echo 'Finished gernated workers!'
 }
 
 function restart_all_docker_container () {
@@ -251,9 +261,9 @@ function menu() {
 6) Create DB (Don't forget to modified mysql.yml file)
 7) Create .env for worker container
 8) Create ptt worker container (Please finished step7 then run this)
+9) Create ptt scheduler container
 11) Send ptt task
 12) Start queue of ptt
-14) Set scheduler of ptt crawler (5mins)
 i) Auto Run Everything (Only 1 ~ 2)
 w) restart all docker container
 r) reboot
@@ -269,11 +279,11 @@ Choose what to do: "
         4) create_docker_container ; menu ;;
         5) setting_dev_env ; menu ;;
         6) create_db_in_mysql ; menu ;;
-        7) create_ptt_worker_container ; menu ;;
+        7) create_worker_env ; menu ;;
         8) create_ptt_worker_container ; menu ;;
+        9) create_scheduler_container ; menu ;;
         11) send_ptt_task ; menu ;;
         12) start_ptt_queue ; menu ;;
-        14) set_scheduler_for_ptt_search ; menu ;;
 		"i") install_docker ; install_python_env_params ; menu ;;
 		"w") restart_all_docker_container ; menu ;;
 		"q") exit 0; ;;
