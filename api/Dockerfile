@@ -38,4 +38,4 @@ RUN pipenv install sqlalchemy==1.4.20
 
 RUN pipenv sync
 
-CMD ["pipenv", "run", "uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8888"]
+CMD ["pipenv", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8888"]
