@@ -28,5 +28,6 @@ RUN pipenv install flask==2.0.1
 RUN pipenv --python ~/.pyenv/versions/miniconda3-4.3.30/bin/python
 RUN pip install docker-compose pipenv
 RUN pipenv install mysql-connector-python==8.0.28
+RUN pipenv install beautifulsoup4
 RUN pipenv install apscheduler
 RUN pipenv sync
