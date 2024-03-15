@@ -12,5 +12,3 @@ services:
 
 networks:
   dev:
-    # 加入已經存在的網路
-    external: true
