@@ -1,0 +1,18 @@
+version: '3.0'
+services:
+  api-server:
+    build:  # 定義如何構建 Docker 映像。
+        context: ./  # 指定 Dockerfile 所在的上下文路徑，這裡是當前目錄。
+        dockerfile: Dockerfile  # 指定用於構建映像的 Dockerfile 名稱。
+    image: api-server
+    ports:
+        - 8888:8888
+    hostname: "api-server"
+    restart: always
+    environment:
+      - TZ=Asia/Taipei
+    networks:
+        - dev
+
+networks:
+  dev:

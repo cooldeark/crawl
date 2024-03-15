@@ -261,9 +261,9 @@ function menu() {
 6) Create DB (Don't forget to modified mysql.yml file)
 7) Create .env for worker container
 8) Create ptt worker container (Please finished step7 then run this)
-9) Create ptt scheduler container
-11) Send ptt task
-12) Start queue of ptt
+9) Create ptt scheduler container (Only can run in worker container instance)
+11) Send ptt task (Test used, only can run in services instance)
+12) Start queue of ptt (Test used, only can run in services instance)
 i) Auto Run Everything (Only 1 ~ 2)
 w) restart all docker container
 r) reboot
