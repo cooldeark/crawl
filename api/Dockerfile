@@ -17,7 +17,7 @@ RUN echo 'if command -v pyenv 1>/dev/null 2>&1; then eval "$(pyenv init -)"; fi'
 RUN mkdir -p /opt/crawl
 # 設定進入docker的預設工作目錄
 COPY ./ /opt/crawl
-WORKDIR /opt/crawl/api
+WORKDIR /opt/crawl
 
 # install package
 RUN pip3 install pipenv==2020.6.2
@@ -30,11 +30,4 @@ RUN pip install docker-compose pipenv
 RUN pipenv install mysql-connector-python==8.0.28
 RUN pipenv install beautifulsoup4
 RUN pipenv install apscheduler
-# RUN pipenv install fastapi==0.63.0
-# RUN pipenv install uvicorn==0.14.0
-# RUN pipenv install pandas==1.1.5
-# RUN pipenv install pymysql==1.0.2
-# RUN pipenv install sqlalchemy==1.4.20
 RUN pipenv sync
-# 這告訴 Uvicorn 從 /opt/crawl/api/main.py 文件中載入名為 app 的應用實例並運行它
-# CMD ["pipenv", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8888"]
