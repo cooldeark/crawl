@@ -30,25 +30,11 @@ RUN pip install docker-compose pipenv
 RUN pipenv install mysql-connector-python==8.0.28
 RUN pipenv install beautifulsoup4
 RUN pipenv install apscheduler
-
-RUN pipenv install click==7.1.2
-RUN pipenv install dataclasses==0.8
-RUN pipenv install fastapi==0.63.0
-RUN pipenv install greenlet==1.0.0
-RUN pipenv install h11==0.12.0
-RUN pipenv install importlib-metadata==4.0.1
-RUN pipenv install numpy==1.19.5
-RUN pipenv install pandas==1.1.5
-RUN pipenv install pydantic==1.8.1
-RUN pipenv install pymysql==1.0.2
-RUN pipenv install python-dateutil==2.8.1
-RUN pipenv install pytz==2021.1
-RUN pipenv install six==1.15.0
-RUN pipenv install sqlalchemy==1.4.20
-RUN pipenv install starlette==0.13.6
-RUN pipenv install typing-extensions==3.7.4.3
-RUN pipenv install uvicorn==0.14.0
-RUN pipenv install zipp==3.4.1
+# RUN pipenv install fastapi==0.63.0
+# RUN pipenv install uvicorn==0.14.0
+# RUN pipenv install pandas==1.1.5
+# RUN pipenv install pymysql==1.0.2
+# RUN pipenv install sqlalchemy==1.4.20
 RUN pipenv sync
 # 這告訴 Uvicorn 從 /opt/crawl/api/main.py 文件中載入名為 app 的應用實例並運行它
-CMD ["pipenv", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8888"]
+# CMD ["pipenv", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8888"]
