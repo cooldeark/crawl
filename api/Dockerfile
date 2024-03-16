@@ -37,5 +37,6 @@ RUN pipenv install pymysql==1.0.2
 RUN pipenv install sqlalchemy==1.4.20
 
 RUN pipenv sync
-
-CMD ["pipenv", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8888"]
+# 這告訴 Uvicorn 從 /opt/crawl/api/main.py 文件中載入名為 app 的應用實例並運行它
+# CMD ["pipenv", "run", "uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8888"]
+# 等一下手動跑此指令看哪裡錯
