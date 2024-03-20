@@ -7,12 +7,13 @@ services:
         image: api-server
         ports:
             - 8888:8888
-        # hostname: "api-server"
+        hostname: "api-server"
         restart: always
         environment:
           - TZ=Asia/Taipei
         networks:
             - dev
-
 networks:
   dev:
+    # 加入已經存在的網路
+    external: true
