@@ -128,6 +128,7 @@ function create_scheduler_container () {
 }
 
 function create_api_container () {
+    sudo chmod +x apache_uvicorn.sh
     sudo docker compose -f api-server.yml up -d
     echo 'Finished api'
 }
