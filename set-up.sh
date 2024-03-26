@@ -127,6 +127,11 @@ function create_scheduler_container () {
     echo 'Finished scheduler'
 }
 
+function create_api_container () {
+    sudo docker compose -f api-server.yml up -d
+    echo 'Finished api'
+}
+
 function create_ptt_worker_container () {
     # 提示用户输入要创建的容器数量
     echo "Enter the number of containers (workers) you want to create:"
@@ -262,6 +267,7 @@ function menu() {
 7) Create .env for worker container
 8) Create ptt worker container (Please finished step7 then run this)
 9) Create ptt scheduler container (Only can run in worker container instance)
+10) Create api container
 11) Send ptt task (Test used, only can run in services instance)
 12) Start queue of ptt (Test used, only can run in services instance)
 i) Auto Run Everything (Only 1 ~ 2)
@@ -282,6 +288,7 @@ Choose what to do: "
         7) create_worker_env ; menu ;;
         8) create_ptt_worker_container ; menu ;;
         9) create_scheduler_container ; menu ;;
+        10) create_api_container ; menu ;;
         11) send_ptt_task ; menu ;;
         12) start_ptt_queue ; menu ;;
 		"i") install_docker ; install_python_env_params ; menu ;;
