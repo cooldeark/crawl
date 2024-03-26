@@ -14,6 +14,7 @@ services:
         # ports:
             # - 8888:8888
         hostname: "api-server"
+        command: ["./apache_uvicorn.sh"]
         restart: always
         environment:
           - TZ=Asia/Taipei
