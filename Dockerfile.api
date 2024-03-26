@@ -2,9 +2,18 @@ FROM ubuntu:20.04
 MAINTAINER JamesLin
 
 # 系統升級、安裝 python
-RUN apt-get update && apt-get install python3.6 -y && apt-get install python3-pip -y
+RUN apt-get update -y
+RUN apt-get upgrade -y
+RUN apt-get install vim -y
+RUN apt-get install python3.6 -y && apt-get install python3-pip -y
 RUN apt install curl git bzip2 -y
 RUN curl https://pyenv.run | bash
+
+# 安裝apache2
+# 這裏安裝讓交互式溝通可以先預設怎麼回覆
+RUN apt-get install apache2 -y
+# 开启 Apache 的必要模块
+RUN a2enmod proxy proxy_http proxy_balancer lbmethod_byrequests ssl headers
 
 # 設置環境變量
 ENV PYENV_ROOT="/root/.pyenv"
@@ -37,4 +46,14 @@ RUN pipenv install pymysql==1.0.2
 RUN pipenv install sqlalchemy==1.4.20
 RUN pipenv sync
 # 這告訴 Uvicorn 從 /opt/crawl/api/main.py 文件中載入名為 app 的應用實例並運行它
-CMD ["pipenv", "run", "uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8888"]
+# CMD ["pipenv", "run", "uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8888"]
+# apache的啟動指令
+# CMD ["apachectl", "-D", "FOREGROUND"]
+
+# 配置容器启动时运行的命令
+# 需要同时启动 Uvicorn 和 Apache
+# 使用 shell 形式的 CMD 来同时运行 Apache 和 Uvicorn 可能需要一些技巧，通常推荐使用一个启动脚本
+RUN chmod +x apache_uvicorn.sh
+CMD ["apache_uvicorn.sh"]
+#設定運行時容器提供服務的通道
+EXPOSE 80 443

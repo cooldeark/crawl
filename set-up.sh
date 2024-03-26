@@ -132,6 +132,41 @@ function create_api_container () {
     echo 'Finished api'
 }
 
+function set_api_container_domain () {
+    echo '
+        <VirtualHost *:80>
+            ServerAdmin webmaster@localhost
+            ServerName testinstance.colearn30.com
+
+            ProxyPass / http://127.0.0.1:8888/
+            ProxyPassReverse / http://127.0.0.1:8888/
+
+            ErrorLog ${APACHE_LOG_DIR}/error.log
+            CustomLog ${APACHE_LOG_DIR}/access.log combined
+        </VirtualHost>
+
+        <VirtualHost *:443>
+            ServerName testinstance.colearn30.com
+            SSLEngine on
+            SSLCertificateFile /etc/apache2/ssl/colearn.crt
+            SSLCertificateKeyFile /etc/apache2/ssl/colearn30.key
+            SSLCertificateChainFile /etc/apache2/ssl/colearn_bundle.crt
+
+            ProxyPass / http://127.0.0.1:8888/
+            ProxyPassReverse / http://127.0.0.1:8888/
+
+            ErrorLog ${APACHE_LOG_DIR}/error.log
+            CustomLog ${APACHE_LOG_DIR}/access.log combined
+        </VirtualHost>
+        ' >/etc/apache2/sites-available/api.conf
+    
+    a2enmod rewrite
+    # 這裡很奇怪，不用指定path直接給就好
+    a2ensite api
+    chown -R www-data:www-data /opt/crawl
+	service apache2 reload
+}
+
 function create_ptt_worker_container () {
     # 提示用户输入要创建的容器数量
     echo "Enter the number of containers (workers) you want to create:"
@@ -267,9 +302,9 @@ function menu() {
 7) Create .env for worker container
 8) Create ptt worker container (Please finished step7 then run this)
 9) Create ptt scheduler container (Only can run in worker container instance)
-10) Create api container
-11) Send ptt task (Test used, only can run in services instance)
-12) Start queue of ptt (Test used, only can run in services instance)
+10) Create api container (Run in container)
+T1) Send ptt task (Test used, only can run in services instance)
+T2) Start queue of ptt (Test used, only can run in services instance)
 i) Auto Run Everything (Only 1 ~ 2)
 w) restart all docker container
 r) reboot
@@ -289,8 +324,9 @@ Choose what to do: "
         8) create_ptt_worker_container ; menu ;;
         9) create_scheduler_container ; menu ;;
         10) create_api_container ; menu ;;
-        11) send_ptt_task ; menu ;;
-        12) start_ptt_queue ; menu ;;
+        11) set_api_container_domain ; menu ;;
+        "T1") send_ptt_task ; menu ;;
+        "T2") start_ptt_queue ; menu ;;
 		"i") install_docker ; install_python_env_params ; menu ;;
 		"w") restart_all_docker_container ; menu ;;
 		"q") exit 0; ;;

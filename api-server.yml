@@ -1,12 +1,16 @@
 version: '3.0'
 services:
     api_server:
+        privileged: true  # 給予容器擴展的權限，允許它訪問宿主機的一些特權系統操作。
         build:  # 定義如何構建 Docker 映像。
             context: ./  # 指定 Dockerfile 所在的上下文路徑，這裡是當前目錄。
             dockerfile: Dockerfile.api  # 指定用於構建映像的 Dockerfile 名稱。
         image: api-server
-        ports:
-            - 8888:8888
+        ports:  # 映射端口，將容器內的端口映射到宿主機的端口。
+            - '${APP_PORT:-80}:80'  # 將容器的 80 端口映射到宿主機的 APP_PORT 環境變量指定的端口，如果未設置則默認為 80。
+            - '${APP_PORT:-443}:443'  # 將容器的 443 端口映射到宿主機的 APP_PORT 環境變量指定的端口，如果未設置則默認為 443。
+        # ports:
+            # - 8888:8888
         hostname: "api-server"
         restart: always
         environment:
@@ -15,5 +19,6 @@ services:
             - dev
 networks:
   dev:
+      driver: bridge  # 指定使用 bridge 驅動。bridge 網絡是 Docker 的默認網絡類型，它將容器在一個隔離的網絡橋接器內。
     # 加入已經存在的網路
     # external: true
