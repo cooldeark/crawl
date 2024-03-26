@@ -302,7 +302,8 @@ function menu() {
 7) Create .env for worker container
 8) Create ptt worker container (Please finished step7 then run this)
 9) Create ptt scheduler container (Only can run in worker container instance)
-10) Create api container (Run in container)
+10) Create api container (Run in instance)
+10) Setting api webdomain (Run in container)
 T1) Send ptt task (Test used, only can run in services instance)
 T2) Start queue of ptt (Test used, only can run in services instance)
 i) Auto Run Everything (Only 1 ~ 2)
