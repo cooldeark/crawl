@@ -1,6 +1,9 @@
 FROM ubuntu:20.04
 MAINTAINER JamesLin
 
+#下面兩行是系統時間設定，避免建立的時候有問題
+ENV TZ=Asia/Taipei
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # 系統升級、安裝 python
 RUN apt-get update -y
 RUN apt-get upgrade -y
