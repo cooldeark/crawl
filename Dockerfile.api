@@ -57,6 +57,6 @@ RUN pipenv sync
 # 需要同时启动 Uvicorn 和 Apache
 # 使用 shell 形式的 CMD 来同时运行 Apache 和 Uvicorn 可能需要一些技巧，通常推荐使用一个启动脚本
 RUN chmod +x apache_uvicorn.sh
-CMD ["sh", "-c", "./apache_uvicorn.sh"]
+CMD ["./apache_uvicorn.sh"]
 #設定運行時容器提供服務的通道
 EXPOSE 80 443
