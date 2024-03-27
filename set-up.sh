@@ -166,10 +166,6 @@ function set_api_container_domain_or_update_ssl () {
 
         <VirtualHost *:443>
             ServerName '$theDomain'
-            SSLEngine on
-            SSLCertificateFile /etc/apache2/ssl/colearn.crt
-            SSLCertificateKeyFile /etc/apache2/ssl/colearn30.key
-            SSLCertificateChainFile /etc/apache2/ssl/colearn_bundle.crt
 
             ProxyPass / http://127.0.0.1:8888/
             ProxyPassReverse / http://127.0.0.1:8888/
