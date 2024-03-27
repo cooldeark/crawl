@@ -24,7 +24,7 @@ def read_root():
 @app.post("/ptt-line-message")
 def get_user_message():
     sql = text("""
-    INSERT INTO ptt_database.lineUser (userID, crawlURL) VALUES ('test', 'test')
+    INSERT INTO ptt_data.lineUser (userID, crawlURL) VALUES (123, 123)
     """)
     mysql_conn = get_mysql_conn()
     with mysql_conn.begin() as transaction:  # 在連接上開始一個事務
