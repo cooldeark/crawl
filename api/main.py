@@ -23,22 +23,14 @@ def read_root():
 
 @app.post("/ptt-line-message")
 def get_user_message():
-    # sql = f"""
-    # select * from TaiwanStockPrice
-    # where StockID = '{stock_id}'
-    # and Date>= '{start_date}'
-    # and Date<= '{end_date}'
-    # """
-    # 构建插入数据的 SQL 语句
-    sql = """
+    sql = text("""
     INSERT INTO ptt_database.lineUser (userID, crawlURL) VALUES ('test', 'test')
-    """
+    """)
     mysql_conn = get_mysql_conn()
-    # 执行 SQL 语句
-    with mysql_conn.cursor() as cursor:
-        cursor.execute(sql)
-        mysql_conn.commit()
-    # data_df = pd.read_sql(sql, con=mysql_conn)
+    with mysql_conn.begin() as transaction:  # 在連接上開始一個事務
+        mysql_conn.execute(sql)  # 執行 SQL 語句
+        transaction.commit()  # 提交事務
+    mysql_conn.close()  # 關閉連接
     return '', 200
 
 

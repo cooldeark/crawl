@@ -214,6 +214,7 @@ function restart_all_docker_container () {
     sudo docker restart crawl_phpmyadmin
     sudo docker restart crawl_rabbitMQ
     sudo docker restart crawl_flower
+    sudo docker restart api-server
 }
 
 function start_twse_queue () {
