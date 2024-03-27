@@ -128,12 +128,33 @@ function create_scheduler_container () {
 }
 
 function create_api_container () {
+    # 這裡要先做，不然因為volume掛載關係，在dockerfile是不會生效的。
     sudo chmod +x apache_uvicorn.sh
     sudo docker compose -f api-server.yml up -d
     echo 'Finished api'
 }
 
 function set_api_container_domain () {
+
+    # check ssl.zip exist
+    sslFile="ssl.zip"
+    if [ -f "$sslFile" ]; then
+        echo "$sslFile exists."
+    else
+        echo "$sslFile does not exist."
+        exit 1
+    fi
+
+    apt-get install zip -y
+
+    if [ ! -d "/etc/apache2/ssl" ]; then
+        # 如果 ssl 目录不存在，则解压缩 ssl.zip 到 /etc/apache2 目录
+        unzip ssl.zip -d /etc/apache2
+    else
+        echo "Directory '/etc/apache2/ssl' already exists, skipping ssl.zip extraction."
+        # exit 1
+    fi
+
     echo '
         <VirtualHost *:80>
             ServerAdmin webmaster@localhost
