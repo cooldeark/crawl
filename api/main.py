@@ -1,6 +1,6 @@
 import pandas as pd
 from fastapi import FastAPI
-from sqlalchemy import create_engine, engine
+from sqlalchemy import create_engine, engine, text
 from api import config
 
 
