@@ -181,9 +181,10 @@ function set_api_container_domain_or_update_ssl () {
         chown -R www-data:www-data /opt/crawl
         service apache2 reload
 
-        apt-get install certbot
-        apt-get install python3-certbot-apache
-        certbot --apache -d $theDomain
+        apt-get install certbot -y
+        apt-get install python3-certbot-apache -y
+        # 手動安裝會有一些交互式作業，用下面指令試試看
+        # certbot --apache -d $theDomain
         certbot certonly -n --agree-tos --register-unsafely-without-email --apache --preferred-challenges http -d $theDomain
     fi
 
