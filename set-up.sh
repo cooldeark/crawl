@@ -134,31 +134,28 @@ function create_api_container () {
     echo 'Finished api'
 }
 
-function set_api_container_domain () {
-
-    # check ssl.zip exist
-    sslFile="ssl.zip"
-    if [ -f "$sslFile" ]; then
-        echo "$sslFile exists."
+function set_api_container_domain_or_update_ssl () {
+    # check api.conf exist
+    confile="/etc/apache2/sites-available/api.conf"
+    if [ -f "$confile" ]; then
+        # 提示用户输入要创建的容器数量
+        echo "You want to renew the ssl? Y / N :"
+        read theReNew
+        if [ "$theReNew" = "Y" ]; then
+            certbot renew
+        else
+            exit 1
+        fi
     else
-        echo "$sslFile does not exist."
-        exit 1
-    fi
+        # 提示用户输入要创建的容器数量
+        echo "Enter the domain of api server:"
+        read theDomain
 
-    apt-get install zip -y
-
-    if [ ! -d "/etc/apache2/ssl" ]; then
-        # 如果 ssl 目录不存在，则解压缩 ssl.zip 到 /etc/apache2 目录
-        unzip ssl.zip -d /etc/apache2
-    else
-        echo "Directory '/etc/apache2/ssl' already exists, skipping ssl.zip extraction."
-        # exit 1
-    fi
-
-    echo '
+        apt-get install zip -y
+        echo '
         <VirtualHost *:80>
             ServerAdmin webmaster@localhost
-            ServerName testinstance.colearn30.com
+            ServerName '$theDomain'
 
             ProxyPass / http://127.0.0.1:8888/
             ProxyPassReverse / http://127.0.0.1:8888/
@@ -168,7 +165,7 @@ function set_api_container_domain () {
         </VirtualHost>
 
         <VirtualHost *:443>
-            ServerName testinstance.colearn30.com
+            ServerName '$theDomain'
             SSLEngine on
             SSLCertificateFile /etc/apache2/ssl/colearn.crt
             SSLCertificateKeyFile /etc/apache2/ssl/colearn30.key
@@ -182,11 +179,20 @@ function set_api_container_domain () {
         </VirtualHost>
         ' >/etc/apache2/sites-available/api.conf
     
-    a2enmod rewrite
-    # 這裡很奇怪，不用指定path直接給就好
-    a2ensite api
-    chown -R www-data:www-data /opt/crawl
-	service apache2 reload
+        a2enmod rewrite
+        # 這裡很奇怪，不用指定path直接給就好
+        a2ensite api
+        chown -R www-data:www-data /opt/crawl
+        service apache2 reload
+
+        apt-get install certbot
+        apt-get install python3-certbot-apache
+        certbot --apache -d $theDomain
+        certbot certonly -n --agree-tos --register-unsafely-without-email --apache --preferred-challenges http -d $theDomain
+    fi
+
+    # 測試是否可以跑延期
+    # certbot renew --dry-run
 }
 
 function create_ptt_worker_container () {
@@ -325,7 +331,7 @@ function menu() {
 8) Create ptt worker container (Please finished step7 then run this)
 9) Create ptt scheduler container (Only can run in worker container instance)
 10) Create api container (Run in instance)
-11) Setting api webdomain (Run in container)
+11) Setting api webdomain or renew ssl (Run in container)
 T1) Send ptt task (Test used, only can run in services instance)
 T2) Start queue of ptt (Test used, only can run in services instance)
 i) Auto Run Everything (Only 1 ~ 2)
@@ -347,7 +353,7 @@ Choose what to do: "
         8) create_ptt_worker_container ; menu ;;
         9) create_scheduler_container ; menu ;;
         10) create_api_container ; menu ;;
-        11) set_api_container_domain ; menu ;;
+        11) set_api_container_domain_or_update_ssl ; menu ;;
         "T1") send_ptt_task ; menu ;;
         "T2") start_ptt_queue ; menu ;;
 		"i") install_docker ; install_python_env_params ; menu ;;
