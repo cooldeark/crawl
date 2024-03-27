@@ -150,7 +150,10 @@ function set_api_container_domain_or_update_ssl () {
         # 提示用户输入要创建的容器数量
         echo "Enter the domain of api server:"
         read theDomain
-
+        
+        CERTFILE=/etc/letsencrypt/live/$theDomain/fullchain.pem
+        CERTKEY=/etc/letsencrypt/live/$theDomain/privkey.pem
+        
         apt-get install zip -y
         echo '
         <VirtualHost *:80>
@@ -166,12 +169,15 @@ function set_api_container_domain_or_update_ssl () {
 
         <VirtualHost *:443>
             ServerName '$theDomain'
-
+            SSLEngine on
             ProxyPass / http://127.0.0.1:8888/
             ProxyPassReverse / http://127.0.0.1:8888/
 
             ErrorLog ${APACHE_LOG_DIR}/error.log
             CustomLog ${APACHE_LOG_DIR}/access.log combined
+            SSLCertificateFile '$CERTFILE'
+            SSLCertificateKeyFile '$CERTKEY'
+            Include /etc/letsencrypt/options-ssl-apache.conf
         </VirtualHost>
         ' >/etc/apache2/sites-available/api.conf
     
