@@ -39,7 +39,7 @@ def get_user_message():
         cursor.execute(sql)
         mysql_conn.commit()
     # data_df = pd.read_sql(sql, con=mysql_conn)
-    return {"Hello": "World"}
+    return '', 200
 
 
 @app.get("/taiwan_stock_price")
