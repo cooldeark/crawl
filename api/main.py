@@ -37,7 +37,9 @@ def read_root():
     # 获取查询结果并转换为列表，每个元素是一个字典
     result_list = [dict(row) for row in result]
     mysql_conn.close()  # 关闭连接
-    print(result_list)
+    # print只會在flask console顯現，如果只有print並不會在網頁上顯示，要在網頁上顯示必須用return
+    # print(result_list)
+    return result_list
 
 
 @app.post("/ptt-line-message")
