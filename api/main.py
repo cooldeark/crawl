@@ -1,5 +1,5 @@
 import pandas as pd
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from sqlalchemy import create_engine, engine, text
 from api import config
 
@@ -13,16 +13,41 @@ def get_mysql_conn() -> engine.base.Connection:
     connect = engine.connect()
     return connect
 
+# def check_user(userID):
 
+#     if 條件1:
+#     # 如果條件1為真，執行這裡的代碼
+#     elif 條件2:
+#         # 如果條件1為假但條件2為真，執行這裡的代碼
+#     else:
+#         # 如果條件1和條件2都為假，執行這裡的代碼
+
+
+# 切記改過flaskAPI的route必須重啟server
 app = FastAPI()
 
 
 @app.get("/")
 def read_root():
-    return {"Hello": "World"}
+    userID = 'Ua2cde922e74b8c37942f45b54bf5388c'
+    # 使用参数化查询
+    sql = text("SELECT * FROM lineUser WHERE userID = :userID")
+    mysql_conn = get_mysql_conn()
+    result = mysql_conn.execute(sql, {'userID': userID})  # 将 userID 作为参数传递
+    # 获取查询结果并转换为列表，每个元素是一个字典
+    result_list = [dict(row) for row in result]
+    mysql_conn.close()  # 关闭连接
+    print(result_list)
+
 
 @app.post("/ptt-line-message")
-def get_user_message():
+async def get_user_message(request: Request):
+    # 異步讀取請求體中的 JSON 數據
+    data = await request.json()
+    getData = data['events'][0]
+    user_id = getData['source']['userId']
+    text = getData['message']['text']
+
     sql = text("""
     INSERT INTO ptt_data.lineUser (userID, crawlURL) VALUES (123, 123)
     """)

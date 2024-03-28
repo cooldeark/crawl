@@ -331,11 +331,11 @@ function menu() {
 3) Install Python Library (Only services host needed)
 4) Create Docker Container services (mysql, rabbitMQ)
 5) setting dev env (Need to modified local.ini then run this job, only services host needed)
-6) Create DB (Don't forget to modified mysql.yml file)
+6) Create DB (Don't forget to modified mysql.yml file e.g. password)
 7) Create .env for worker container
 8) Create ptt worker container (Please finished step7 then run this)
 9) Create ptt scheduler container (Only can run in worker container instance)
-10) Create api container (Run in instance)
+10) Create api container (Run in instance, and not build in services. Good to with workers)
 11) Setting api webdomain or renew ssl (Run in container)
 T1) Send ptt task (Test used, only can run in services instance)
 T2) Start queue of ptt (Test used, only can run in services instance)
